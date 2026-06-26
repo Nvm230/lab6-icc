@@ -1,0 +1,86 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{fancyhdr}
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\title{Laboratorio 6: Desarrollo de Aplicación en la Nube con AWS}
+\author{Nombre del Estudiante}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+El presente reporte documenta el desarrollo y despliegue de una aplicación web administrable con Node.js, Express y EJS, utilizando la infraestructura de Amazon Web Services (AWS). El sistema está diseñado en una arquitectura de microservicios contenerizada con Docker, persistiendo datos relacionales en Amazon RDS y archivos estáticos en Amazon S3.
+
+\section{Arquitectura y Recursos Aprovisionados}
+Se levantaron y configuraron de forma exitosa los siguientes servicios en la nube:
+\begin{itemize}
+    \item \textbf{Amazon EC2 (Cómputo):} IP Pública \texttt{54.82.36.219}
+    \item \textbf{Amazon RDS (Base de Datos):} PostgreSQL en \texttt{lab6-db-1782434549...}
+    \item \textbf{Amazon S3 (Almacenamiento):} Bucket \texttt{lab6-utec-profiles-1782434529}
+\end{itemize}
+
+\section{Evidencias Fotográficas}
+
+A continuación se presentan las capturas de pantalla que demuestran el correcto funcionamiento de cada componente solicitado en el laboratorio.
+
+% NOTA PARA EL ALUMNO: Cambia los nombres de los archivos en las llaves { } por el nombre correcto de tu captura.
+
+\subsection{1. Despliegue en Amazon EC2 y Contenedor Docker}
+Se verifica que la máquina EC2 se encuentra activa y que el contenedor de la aplicación está corriendo en el puerto 3000 utilizando Docker Compose.
+
+\begin{figure}[H]
+    \centering
+    % Reemplaza "captura-docker.png" por tu imagen real
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-203027.png}
+    \caption{Ejecución de \texttt{docker ps} y logs en la consola del EC2.}
+\end{figure}
+
+\subsection{2. Aplicación Web - Interfaz de Usuario}
+Se evidencia el acceso a la aplicación mediante la IP pública, mostrando el formulario de inicio de sesión y el Dashboard administrativo.
+
+\begin{figure}[H]
+    \centering
+    % Reemplaza con la foto del login/dashboard
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202648.png}
+    \caption{Acceso al panel administrativo.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    % Reemplaza con la foto del registro de usuario
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202717.png}
+    \caption{Formulario para crear y editar usuarios.}
+\end{figure}
+
+\subsection{3. Almacenamiento en Amazon S3}
+Se comprueba que las imágenes subidas a través de la aplicación se almacenan correctamente en el bucket público de S3, sin utilizar permisos manuales de IAM en el código, sino configurando las políticas de bucket adecuadas.
+
+\begin{figure}[H]
+    \centering
+    % Reemplaza con la foto de Amazon S3
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202740.png}
+    \caption{Objetos y fotos guardadas en el bucket de S3.}
+\end{figure}
+
+\subsection{4. Persistencia en Amazon RDS (PostgreSQL)}
+Se evidencia la inserción de registros en la base de datos relacional PostgreSQL alojada en RDS, la cual requiere conexión cifrada por SSL, evidenciando el éxito del flujo completo.
+
+\begin{figure}[H]
+    \centering
+    % Reemplaza con la foto de la consulta SQL
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202827.png}
+    \caption{Consulta a la tabla \texttt{users} evidenciando el registro de datos.}
+\end{figure}
+
+\section{Conclusión}
+Se logró desplegar una infraestructura completa en la nube aislando configuraciones locales a través de \texttt{.env} y usando Docker. Se verificaron y validaron conexiones exitosas a RDS con certificados SSL y operaciones \textit{PutObject} a S3 mediante el SDK.
+
+\end{document}

@@ -1,8 +1,9 @@
 const db = require('../config/db');
+const { deleteImageFromS3 } = require('../config/s3');
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const { rows } = await db.query('SELECT * FROM users ORDER BY created_at DESC');
+    const { rows } = await db.query('SELECT * FROM users ORDER BY id ASC');
     res.render('dashboard', { users: rows });
   } catch (err) {
     console.error(err);
@@ -66,12 +67,17 @@ exports.updateUser = async (req, res) => {
     if (!emailRegex.test(email)) {
       return res.render('user_form', { user: { id, name, email, role }, error: 'Please enter a valid email address.' });
     }
+    
+    // Get old user image first to delete it later if changed
+    const { rows } = await db.query('SELECT profile_image_url FROM users WHERE id = $1', [id]);
+    const oldImageUrl = rows[0]?.profile_image_url;
 
     let query = 'UPDATE users SET name = $1, email = $2, role = $3 WHERE id = $4';
     let params = [name, email, role, id];
 
     // If a new image was uploaded, update the URL
     if (req.file) {
+      if (oldImageUrl) await deleteImageFromS3(oldImageUrl); // Cleanup S3
       query = 'UPDATE users SET name = $1, email = $2, role = $3, profile_image_url = $4 WHERE id = $5';
       params = [name, email, role, req.file.location, id];
     }
@@ -90,7 +96,14 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
+    // Get old image URL before deleting
+    const { rows } = await db.query('SELECT profile_image_url FROM users WHERE id = $1', [id]);
+    const oldImageUrl = rows[0]?.profile_image_url;
+    
     await db.query('DELETE FROM users WHERE id = $1', [id]);
+    
+    if (oldImageUrl) await deleteImageFromS3(oldImageUrl); // Cleanup S3
+    
     res.redirect('/users/dashboard');
   } catch (err) {
     console.error(err);
