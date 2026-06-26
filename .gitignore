@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.pem
+*.log
+.ec2_ip
+ec2_info.txt
+create_ec2.sh
+create_aws_resources.sh
+deploy.sh
+.DS_Store
