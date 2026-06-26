@@ -9,7 +9,7 @@
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
 \title{Laboratorio 6: Desarrollo de Aplicación en la Nube con AWS}
-\author{Nombre del Estudiante}
+\author{Marco Alegria}
 \date{\today}
 
 \begin{document}
@@ -29,58 +29,78 @@ Se levantaron y configuraron de forma exitosa los siguientes servicios en la nub
 
 \section{Evidencias Fotográficas}
 
-A continuación se presentan las capturas de pantalla que demuestran el correcto funcionamiento de cada componente solicitado en el laboratorio.
+A continuación se presentan todas las capturas de pantalla que demuestran el correcto funcionamiento y despliegue de cada componente solicitado en el laboratorio.
 
-% NOTA PARA EL ALUMNO: Cambia los nombres de los archivos en las llaves { } por el nombre correcto de tu captura.
-
-\subsection{1. Despliegue en Amazon EC2 y Contenedor Docker}
-Se verifica que la máquina EC2 se encuentra activa y que el contenedor de la aplicación está corriendo en el puerto 3000 utilizando Docker Compose.
+\subsection{1. Consolas de Infraestructura AWS}
+Se aprovisionaron los tres servicios fundamentales desde la consola de AWS.
 
 \begin{figure}[H]
     \centering
-    % Reemplaza "captura-docker.png" por tu imagen real
-    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-203027.png}
-    \caption{Ejecución de \texttt{docker ps} y logs en la consola del EC2.}
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202648.png}
+    \caption{Instancia EC2 en ejecución con IP Pública 54.82.36.219.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202717.png}
+    \caption{Instancia de base de datos PostgreSQL en Amazon RDS.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202728.png}
+    \caption{Bucket de Amazon S3 configurado con múltiples imágenes de los perfiles.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-205134.png}
+    \caption{Bucket de Amazon S3 mostrando la limpieza de archivos tras actualizaciones.}
 \end{figure}
 
 \subsection{2. Aplicación Web - Interfaz de Usuario}
-Se evidencia el acceso a la aplicación mediante la IP pública, mostrando el formulario de inicio de sesión y el Dashboard administrativo.
+La aplicación expone una interfaz administrativa asegurada mediante autenticación.
 
 \begin{figure}[H]
     \centering
-    % Reemplaza con la foto del login/dashboard
-    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202648.png}
-    \caption{Acceso al panel administrativo.}
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202803.png}
+    \caption{Pantalla de inicio de sesión (Login) para el administrador.}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    % Reemplaza con la foto del registro de usuario
-    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202717.png}
-    \caption{Formulario para crear y editar usuarios.}
-\end{figure}
-
-\subsection{3. Almacenamiento en Amazon S3}
-Se comprueba que las imágenes subidas a través de la aplicación se almacenan correctamente en el bucket público de S3, sin utilizar permisos manuales de IAM en el código, sino configurando las políticas de bucket adecuadas.
-
-\begin{figure}[H]
-    \centering
-    % Reemplaza con la foto de Amazon S3
     \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202740.png}
-    \caption{Objetos y fotos guardadas en el bucket de S3.}
+    \caption{Panel Administrativo (Dashboard) listando los usuarios.}
 \end{figure}
-
-\subsection{4. Persistencia en Amazon RDS (PostgreSQL)}
-Se evidencia la inserción de registros en la base de datos relacional PostgreSQL alojada en RDS, la cual requiere conexión cifrada por SSL, evidenciando el éxito del flujo completo.
 
 \begin{figure}[H]
     \centering
-    % Reemplaza con la foto de la consulta SQL
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202747.png}
+    \caption{Formulario de creación de un nuevo usuario con subida de imagen.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202753.png}
+    \caption{Formulario de edición de usuario, mostrando la imagen actual desde S3.}
+\end{figure}
+
+\subsection{3. Verificación de Backend y Contenedores}
+Se comprueba la conexión a la base de datos remotamente y el estado del contenedor Docker en la instancia EC2.
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-202827.png}
-    \caption{Consulta a la tabla \texttt{users} evidenciando el registro de datos.}
+    \caption{Consulta SQL directa a PostgreSQL en RDS comprobando las URLs de S3 guardadas.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{/home/nvm/Pictures/ScreenShots/Shot-2026-06-25-203027.png}
+    \caption{Conexión por SSH a la instancia EC2 validando el contenedor Docker.}
 \end{figure}
 
 \section{Conclusión}
-Se logró desplegar una infraestructura completa en la nube aislando configuraciones locales a través de \texttt{.env} y usando Docker. Se verificaron y validaron conexiones exitosas a RDS con certificados SSL y operaciones \textit{PutObject} a S3 mediante el SDK.
+Se logró desplegar una infraestructura completa en la nube aislando configuraciones locales a través de \texttt{.env} y usando Docker. Se verificaron y validaron conexiones exitosas a RDS con certificados SSL y operaciones a S3 mediante el SDK.
 
 \end{document}
