@@ -20,16 +20,21 @@ Esta aplicación web fue desarrollada en Node.js (Express) con un perfil de admi
 - `views/`: Plantillas visuales en EJS.
 - `Dockerfile` & `docker-compose.yml`: Archivos de contenerización.
 
-## Despliegue en Amazon EC2
+## Despliegue en Amazon EC2 (Entorno de Producción)
+
+Los siguientes recursos fueron configurados y aprovisionados en AWS para este laboratorio:
+- **Amazon EC2 (IP Pública):** `54.82.36.219`
+- **Amazon RDS (PostgreSQL):** `lab6-db-1782434549.cgjgmq8eyj78.us-east-1.rds.amazonaws.com`
+- **Amazon S3 (Imágenes):** `lab6-utec-profiles-1782434529`
 
 1. **Requisitos previos en la nube:**
    - Una instancia de Amazon EC2 (Ubuntu recomendado) con los puertos `80`, `443`, y `3000` abiertos.
    - Una instancia de Amazon RDS con PostgreSQL en la misma VPC.
    - Un bucket de Amazon S3 público configurado.
 
-2. **Pasos de Despliegue:**
+2. **Pasos de Despliegue (Docker):**
    - Clona este repositorio en tu instancia EC2.
-   - Copia el archivo de ejemplo de variables de entorno y complétalo con los datos de tu infraestructura:
+   - Copia el archivo de ejemplo de variables de entorno y complétalo con tus accesos IAM y contraseña de RDS:
      ```bash
      cp .env.example .env
      ```
@@ -39,5 +44,5 @@ Esta aplicación web fue desarrollada en Node.js (Express) con un perfil de admi
      ```
 
 3. **Uso de la Aplicación:**
-   - Abre el navegador en `http://<IP-PUBLICA-EC2>:3000`
-   - Ingresa con las credenciales configuradas en el archivo `.env`.
+   - Abre el navegador en: `http://54.82.36.219:3000`
+   - Ingresa con las credenciales por defecto.
